@@ -5,25 +5,20 @@ import AppBar from './components/AppBar';
 import HomePage from './views/HomePage';
 import MoviesPage from './views/MoviesPage';
 import MovieDetailsPage from './views/MovieDetailsPage';
-import { useState } from 'react';
+import Cast from './views/Cast';
+import Reviews from './views/Reviews';
 
 function App() {
-  const [movies, setMovies] = useState(null);
-
-  function getMovies(movies) {
-    setMovies(movies);
-  }
-
   return (
     <Container>
       <Routes>
         <Route path="/" element={<AppBar />}>
-          <Route index element={<HomePage getMovies={getMovies} />} />
+          <Route index element={<HomePage />} />
           <Route path="movies" element={<MoviesPage />} />
-          <Route
-            path="/movies/:movieId"
-            element={<MovieDetailsPage movies={movies} />}
-          />
+          <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
           <Route path="*" element={<HomePage />} />
         </Route>
       </Routes>

@@ -5,7 +5,7 @@ import PageHeading from '../../components/PageHeading';
 
 import * as themoviedbAPI from '../../services/themoviedb-api';
 
-export default function HomePage({ getMovies }) {
+export default function HomePage() {
   const [movies, setMovies] = useState(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function HomePage({ getMovies }) {
       {movies && (
         <ul>
           {movies.map(movie => (
-            <li key={movie.id} onClick={() => getMovies(movies)}>
+            <li key={movie.id}>
               <Link to={`/movies/${movie.id}`}>
                 {movie.name || movie.title}
               </Link>

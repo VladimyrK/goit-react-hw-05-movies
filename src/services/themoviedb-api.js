@@ -17,3 +17,33 @@ export function fetchMovieById(id) {
     `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`,
   );
 }
+
+export function fetchTvById(id) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/tv/${id}?api_key=${API_KEY}&language=en-US`,
+  );
+}
+
+export function fetchMovieCreditsById(id) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/movie/${id}/credits?api_key=${API_KEY}&language=en-US`,
+  );
+}
+
+export function fetchTvCreditsById(id) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/tv/${id}/credits?api_key=${API_KEY}&language=en-US`,
+  );
+}
+
+export function fetchMovieGenres() {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`,
+  );
+}
+
+export function fetchTvGenres() {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`,
+  );
+}
