@@ -1,12 +1,13 @@
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { fetchByQuery } from '../../services/themoviedb-api';
 
 export default function MoviesPage() {
   let [searchParams, setSearchParams] = useSearchParams();
+  let location = useLocation();
   const [movies, setMovies] = useState(null);
-  const [inputQuery, setInputQuery] = useState('');
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     fetchByQuery(searchParams.get('query'))
@@ -14,24 +15,15 @@ export default function MoviesPage() {
       .then(setMovies);
   }, [searchParams]);
 
-  function handleInputQuery(e) {
-    setInputQuery(e.currentTarget.value.toLowerCase());
+  function handlequery(e) {
+    setQuery(e.currentTarget.value);
   }
 
   function onSubmit(e) {
     e.preventDefault();
-
-    let query = inputQuery;
-    if (query) {
-      setSearchParams({ query });
-    } else {
-      setSearchParams({});
-    }
-
-    setInputQuery('');
+    setSearchParams({ query });
+    setQuery('');
   }
-
-  console.log(movies);
 
   return (
     <>
@@ -41,8 +33,8 @@ export default function MoviesPage() {
           autoComplete="off"
           autoFocus
           placeholder="Search movies"
-          value={inputQuery}
-          onChange={handleInputQuery}
+          value={query}
+          onChange={handlequery}
         />
         <button type="submit">Search</button>
       </form>
@@ -50,7 +42,10 @@ export default function MoviesPage() {
         <ul>
           {movies.map(movie => (
             <li key={movie.id}>
-              <Link to={`/movies/${movie.id}?mediaType=${movie.media_type}`}>
+              <Link
+                to={`/movies/${movie.id}?mediaType=${movie.media_type}`}
+                state={{ from: location }}
+              >
                 {movie.name || movie.title}
               </Link>
             </li>

@@ -1,4 +1,10 @@
-import { Link, Outlet, useParams, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useParams,
+  useSearchParams,
+  useLocation,
+} from 'react-router-dom';
 
 import useFetchData from '../../services/customHooks/useFetchData';
 import { fetchMovieById, fetchTvById } from '../../services/themoviedb-api';
@@ -8,11 +14,17 @@ import s from './MovieDetailsPage.module.css';
 export default function MovieDetailsPage() {
   let { movieId } = useParams();
   let [params] = useSearchParams();
+  let location = useLocation();
   let mediaType = params.get('mediaType');
   const movie = useFetchData(movieId, fetchMovieById, fetchTvById, mediaType);
 
   return movie ? (
     <>
+      <button type="button">
+        <Link to={location.state?.from || '/'} className={s.button}>
+          Back
+        </Link>
+      </button>
       <div className={s.movieDetailsWrap}>
         <img
           className={s.image}
@@ -37,12 +49,18 @@ export default function MovieDetailsPage() {
         <p>Additional Information</p>
         <ul>
           <li>
-            <Link to={`/movies/${movieId}/cast?mediaType=${mediaType}`}>
+            <Link
+              to={`/movies/${movieId}/cast${location.search}`}
+              state={{ from: location.state?.from }}
+            >
               Cast
             </Link>
           </li>
           <li>
-            <Link to={`/movies/${movieId}/reviews?mediaType=${mediaType}`}>
+            <Link
+              to={`/movies/${movieId}/reviews${location.search}`}
+              state={{ from: location.state?.from }}
+            >
               Reviews
             </Link>
           </li>

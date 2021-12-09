@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import PageHeading from '../../components/PageHeading';
 
@@ -7,6 +7,7 @@ import { fetchTrendings } from '../../services/themoviedb-api';
 
 export default function HomePage() {
   const [movies, setMovies] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     fetchTrendings()
@@ -22,7 +23,10 @@ export default function HomePage() {
           {movies.map(movie => {
             return (
               <li key={movie.id}>
-                <Link to={`/movies/${movie.id}?mediaType=${movie.media_type}`}>
+                <Link
+                  to={`/movies/${movie.id}?mediaType=${movie.media_type}`}
+                  state={{ from: location }}
+                >
                   {movie.name || movie.title}
                 </Link>
               </li>

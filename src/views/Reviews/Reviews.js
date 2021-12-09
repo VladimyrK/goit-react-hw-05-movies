@@ -10,20 +10,14 @@ export default function Reviews() {
   let { movieId } = useParams();
   let [params] = useSearchParams();
   let mediaType = params.get('mediaType');
-
   let reviews = useFetchData(
     movieId,
     fetchMovieReviewsById,
     fetchTvReviewsById,
     mediaType,
   );
-  let reviewsLength;
 
-  if (reviews) {
-    reviewsLength = reviews.results.length;
-  }
-
-  return reviewsLength ? (
+  return reviews?.results?.length ? (
     <ul>
       {reviews.results.map(review => (
         <li key={review.id}>
