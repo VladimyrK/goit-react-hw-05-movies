@@ -1,46 +1,34 @@
-import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 
-import * as themoviedbAPI from '../../services/themoviedb-api';
+import {
+  fetchMovieCreditsById,
+  fetchTvCreditsById,
+} from '../../services/themoviedb-api';
+import useFetchData from '../../services/customHooks/useFetchData.js';
 
 import s from './Cast.module.css';
 
 export default function Cast() {
   let { movieId } = useParams();
-  const [credits, setCredits] = useState(null);
+  let [params] = useSearchParams();
+  let mediaType = params.get('mediaType');
 
-  useEffect(() => {
-    let disabled = false;
+  const credits = useFetchData(
+    movieId,
+    fetchMovieCreditsById,
+    fetchTvCreditsById,
+    mediaType,
+  );
 
-    async function getCredits() {
-      const movieTrend = await themoviedbAPI
-        .fetchTrendings()
-        .then(response => response.results)
-        .then(movies => movies.find(movie => movie.id === Number(movieId)));
-      let credits;
-      if (movieTrend.media_type === 'movie') {
-        credits = await themoviedbAPI.fetchMovieCreditsById(movieId);
-      }
-      if (movieTrend.media_type === 'tv') {
-        credits = await themoviedbAPI.fetchTvCreditsById(movieId);
-      }
-      setCredits(credits.cast);
-    }
+  let creditsLength;
 
-    if (!disabled) {
-      getCredits();
-    }
+  if (credits) {
+    creditsLength = credits.cast.length;
+  }
 
-    return () => {
-      disabled = true;
-    };
-  }, [movieId]);
-
-  console.log(credits);
-
-  return credits ? (
+  return creditsLength ? (
     <ul>
-      {credits.map(credit => {
+      {credits.cast.map(credit => {
         return (
           <li className={s.item} key={credit.credit_id}>
             <object
@@ -64,5 +52,4 @@ export default function Cast() {
       <p>No description for this movie</p>
     </>
   );
-  // return <></>;
 }

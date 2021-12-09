@@ -5,10 +5,16 @@ import s from './Navigation.module.css';
 export default function Navigation() {
   return (
     <nav>
-      <NavLink className={s.link} to="/">
+      <NavLink
+        className={({ isActive }) => (isActive ? s.activeLink : s.link)}
+        to="/"
+      >
         Home
       </NavLink>
-      <NavLink className={s.link} to="/movies">
+      <NavLink
+        className={({ isActive }) => (isActive ? s.activeLink : s.link)}
+        to="/movies"
+      >
         Movies
       </NavLink>
     </nav>

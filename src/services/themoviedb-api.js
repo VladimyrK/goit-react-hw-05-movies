@@ -3,7 +3,9 @@ const API_KEY = 'f5066b1fda9bff158e07c9625b7402eb';
 
 async function fetchWithErrorHandling(url) {
   const response = await fetch(url);
-  return response.ok ? await response.json() : Promise.reject(null);
+  return response.ok
+    ? await response.json()
+    : Promise.reject(new Error('Not found'));
 }
 
 export function fetchTrendings() {
@@ -36,6 +38,18 @@ export function fetchTvCreditsById(id) {
   );
 }
 
+export function fetchMovieReviewsById(id) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/movie/${id}/reviews?api_key=${API_KEY}&language=en-US`,
+  );
+}
+
+export function fetchTvReviewsById(id) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/tv/${id}/reviews?api_key=${API_KEY}&language=en-US`,
+  );
+}
+
 export function fetchMovieGenres() {
   return fetchWithErrorHandling(
     `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`,
@@ -45,5 +59,11 @@ export function fetchMovieGenres() {
 export function fetchTvGenres() {
   return fetchWithErrorHandling(
     `${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`,
+  );
+}
+
+export function fetchByQuery(query) {
+  return fetchWithErrorHandling(
+    `${BASE_URL}/search/multi?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`,
   );
 }
