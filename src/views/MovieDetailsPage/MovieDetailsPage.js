@@ -26,11 +26,18 @@ export default function MovieDetailsPage() {
         </Link>
       </button>
       <div className={s.movieDetailsWrap}>
-        <img
+        <object
           className={s.image}
-          src={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
-          alt={movie.name || movie.title}
-        />
+          data={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
+          type="image/jpg"
+        >
+          <img
+            src={`https://dummyimage.com/357x517/000/fff&text=No+poster+for ${
+              movie.name || movie.title
+            }`}
+            alt={`No poster for ${movie.name || movie.title}`}
+          />
+        </object>
         <div>
           <h2>
             {movie.name || movie.title} (

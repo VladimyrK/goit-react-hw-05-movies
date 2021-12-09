@@ -20,13 +20,7 @@ export default function Cast() {
     mediaType,
   );
 
-  let creditsLength;
-
-  if (credits) {
-    creditsLength = credits.cast.length;
-  }
-
-  return creditsLength ? (
+  return credits?.cast?.length ? (
     <ul>
       {credits.cast.map(credit => {
         return (
