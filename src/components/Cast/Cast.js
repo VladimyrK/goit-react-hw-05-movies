@@ -1,26 +1,9 @@
-import { useParams, useSearchParams } from 'react-router-dom';
-
-import {
-  fetchMovieCreditsById,
-  fetchTvCreditsById,
-} from '../../services/themoviedb-api';
-import useFetchData from '../../services/customHooks/useFetchData.js';
+import PropTypes from 'prop-types';
 
 import s from './Cast.module.css';
 
-export default function Cast() {
-  let { movieId } = useParams();
-  let [params] = useSearchParams();
-  let mediaType = params.get('mediaType');
-
-  const credits = useFetchData(
-    movieId,
-    fetchMovieCreditsById,
-    fetchTvCreditsById,
-    mediaType,
-  );
-
-  return credits?.cast?.length ? (
+export default function Cast({ credits }) {
+  return (
     <ul>
       {credits.cast.map(credit => {
         return (
@@ -41,9 +24,9 @@ export default function Cast() {
         );
       })}
     </ul>
-  ) : (
-    <>
-      <p>No description for this movie</p>
-    </>
   );
 }
+
+Cast.propTypes = {
+  credits: PropTypes.object,
+};

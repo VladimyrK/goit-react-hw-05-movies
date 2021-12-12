@@ -4,11 +4,11 @@ import { lazy, Suspense } from 'react';
 import Container from './components/Container';
 import AppBar from './components/AppBar';
 
-const HomePage = lazy(() => import('./views/HomePage'));
-const MoviesPage = lazy(() => import('./views/MoviesPage'));
-const MovieDetailsPage = lazy(() => import('./views/MovieDetailsPage'));
-const Cast = lazy(() => import('./views/Cast'));
-const Reviews = lazy(() => import('./views/Reviews'));
+const HomePage = lazy(() => import('./views/HomePageView'));
+const MoviesPage = lazy(() => import('./views/MoviesPageView'));
+const MovieDetailsPage = lazy(() => import('./views/MovieDetailsPageView'));
+const Cast = lazy(() => import('./views/CastView'));
+const Reviews = lazy(() => import('./views/ReviewsView'));
 
 function App() {
   return (
